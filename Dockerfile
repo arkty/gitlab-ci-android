@@ -18,6 +18,10 @@ ENV ANDROID_HOME "/sdk"
 ENV PATH "$PATH:${ANDROID_HOME}/tools"
 ENV DEBIAN_FRONTEND noninteractive
 
+RUN mkdir -p "$ANDROID_HOME/licenses"
+RUN echo -e "\n8933bad161af4178b1185d1a37fbf41ea5269c55" > "$ANDROID_HOME/licenses/android-sdk-license"
+RUN echo -e "\n84831b9409646a918e30573bab4c9c91346d8abd" > "$ANDROID_HOME/licenses/android-sdk-preview-license"
+
 RUN apt-get -qq update && \
     apt-get install -qqy --no-install-recommends \
       curl \
@@ -39,4 +43,3 @@ RUN unzip /tools.zip -d /sdk && \
     rm -v /tools.zip
 
 RUN (while [ 1 ]; do sleep 5; echo y; done) | ${ANDROID_HOME}/tools/android update sdk -u -a -t ${SDK_PACKAGES}
-RUN $ANDROID_HOME/tools/bin/sdkmanager --licenses
